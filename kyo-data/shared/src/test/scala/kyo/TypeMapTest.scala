@@ -65,6 +65,7 @@ class TypeMapTest extends Test:
         }
         "distinct" in pendingUntilFixed {
             typeCheckFailure("TypeMap(0, 0)")("should fail")
+            ()
         }
     }
     "fatal" - {

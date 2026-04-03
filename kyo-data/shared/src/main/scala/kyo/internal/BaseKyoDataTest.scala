@@ -17,15 +17,14 @@ private[kyo] trait BaseKyoDataTest:
     given [A, B]: CanEqual[Either[A, B], Either[A, B]] = CanEqual.derived
     given CanEqual[Throwable, Throwable]               = CanEqual.derived
 
-    transparent inline def typeCheck(inline code: String): Assertion =
+    inline def typeCheck(inline code: String): Assertion =
         typeCheckWith(code):
             case Result.Error(e)   => assertionFailure(s"$code did not typecheck: $e")
             case Result.Success(_) => assertionSuccess
     end typeCheck
 
     @publicInBinary
-    private[BaseKyoDataTest] transparent inline def typeCheckWith(inline code: String)(inline f: Result[String, Unit] => Assertion)
-        : Assertion =
+    private[BaseKyoDataTest] inline def typeCheckWith(inline code: String)(inline f: Result[String, Unit] => Assertion): Assertion =
         val result: Result[String, Unit] =
             try
                 val errors = typeCheckErrors(code)
@@ -37,7 +36,7 @@ private[kyo] trait BaseKyoDataTest:
         f(result)
     end typeCheckWith
 
-    transparent inline def typeCheckFailure(inline code: String)(inline expected: String)(using frame: Frame): Assertion =
+    inline def typeCheckFailure(inline code: String)(inline expected: String)(using frame: Frame): Assertion =
         typeCheckWith(code):
             case Result.Failure(errors) =>
                 if errors.contains(expected) && expected.nonEmpty then assertionSuccess

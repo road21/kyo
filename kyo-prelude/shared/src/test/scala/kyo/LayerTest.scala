@@ -245,6 +245,7 @@ class LayerTest extends Test:
             val c = Layer(0)
             discard(a, b, c)
             typeCheckFailure("""Layer.init[String](a, b, c)""")("should fail")
+            ()
         }
     }
     "runLayer" - {
